@@ -29,7 +29,7 @@ public class TextAnalysisController : ControllerBase
     /// <response code="400">Bad Request if the file is empty or null.</response>
     /// <returns></returns>
     [HttpPost("analysis")]
-    public IActionResult AnalyzeTextFile(IFormFile file)
+    public async Task<IActionResult> AnalyzeTextFile(IFormFile file)
     {
         if (file == null || file.Length == 0)
         {
@@ -37,7 +37,7 @@ public class TextAnalysisController : ControllerBase
         }
 
         // Get the top 8 longest words from the text file
-        var words = _textService.GetTopLongestWords(file, 8);
+        var words = await _textService.GetTopLongestWords(file, 8);
         return Ok(words);
     }
 }

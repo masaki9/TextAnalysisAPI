@@ -11,5 +11,5 @@ public interface ITextAnalysisService
     /// <param name="file">Text file to analyze</param>
     /// <param name="topCount">Top count of longest words to return</param>
     /// <returns></returns>
-    List<string> GetTopLongestWords(IFormFile file, int topCount);
+    Task<List<string>> GetTopLongestWords(IFormFile file, int topCount);
 }
