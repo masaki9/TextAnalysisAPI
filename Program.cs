@@ -1,4 +1,6 @@
 using TextAnalysisAPI.Services;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace TextAnalysisAPI;
 
@@ -25,7 +27,17 @@ public class Program
         builder.Services.AddControllers();
 
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+
+        // Register the Swagger generator for API documentation
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Text Analysis API", Version = "v1" });
+
+            // Include the XML comments in the API documentation in Swagger
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
+        });
 
         var app = builder.Build();
 

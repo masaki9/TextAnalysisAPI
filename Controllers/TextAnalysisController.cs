@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TextAnalysisAPI.Controllers;
 
-[ApiController]
-[Route("[controller]")]
 /// <summary>
 /// Controller for handling text analysis requests.
 /// </summary>
+[ApiController]
+[Route("[controller]")]
 public class TextAnalysisController : ControllerBase
 {
     private readonly ITextAnalysisService _textService;
@@ -21,12 +21,14 @@ public class TextAnalysisController : ControllerBase
         _textService = textService;
     }
 
-    [HttpPost("analysis")]
     /// <summary>
     /// Analyze the uploaded text file and return the top 8 longest words.
     /// </summary>
     /// <param name="file">Text file to analyze</param>
+    /// <response code="200">Returns the top 8 longest words found in the text.</response>
+    /// <response code="400">Bad Request if the file is empty or null.</response>
     /// <returns></returns>
+    [HttpPost("analysis")]
     public IActionResult AnalyzeTextFile(IFormFile file)
     {
         if (file == null || file.Length == 0)
