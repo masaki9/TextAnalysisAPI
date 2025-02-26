@@ -1,3 +1,5 @@
+using TextAnalysisAPI.Models;
+
 namespace TextAnalysisAPI.Services;
 
 /// <summary>
@@ -14,13 +16,16 @@ public class TextAnalysisService : ITextAnalysisService
     public async Task<List<string>> GetTopLongestWords(IFormFile file, int topCount)
     {
         using var reader = new StreamReader(file.OpenReadStream());
-        var content = await reader.ReadToEndAsync();
-        var words = content.Split(new char[] { ' ', '\n', '\r', ',', '.', '!', '?' },
+        var fullText = await reader.ReadToEndAsync();
+        var words = fullText.Split(new char[] { ' ', '\n', '\r', ',', '.', '!', '?' },
                             StringSplitOptions.RemoveEmptyEntries)
-                            .Select(word => word.Trim())
-                            .OrderByDescending(word => word.Length)
-                            .Take(topCount)
+                            .Select(word => new Word(word)) // Create Word objects
+                            .DistinctBy(word => word.Text) // Remove duplicates
+                            .OrderByDescending(word => word.Length) // Order by word length
+                            .Take(topCount) // Get the top longest words
+                            .Select(word => word.Text) // Convert to list of strings
                             .ToList();
+
         return words;
     }
 }
