@@ -33,7 +33,7 @@ public class TextAnalysisController : ControllerBase
     {
         if (file == null || file.Length == 0)
         {
-            return BadRequest("No file uploaded.");
+            return BadRequest("File is empty or null.");
         }
 
         // Get the top 8 longest words from the text file
