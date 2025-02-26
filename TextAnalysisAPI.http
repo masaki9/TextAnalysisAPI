@@ -1,0 +1,9 @@
+POST https://localhost:7193/text/analysis
+Content-Type: multipart/form-data; boundary=Text_Analysis_API
+
+--Text_Analysis_API
+Content-Disposition: form-data; name="file"; filename="InputFile.txt"
+Content-Type: text/plain
+
+< ./InputFile.txt
+--Text_Analysis_API--
